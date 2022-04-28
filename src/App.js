@@ -24,16 +24,16 @@ function App() {
           value={location}
           onChange={event => setLocation(event.target.value)}
           onKeyPress={searchLocation}
-          placeholder='Enter Location'
+          placeholder='Das Wetter in...'
           type="text" />
       </div>
       <div className="container">
         <div className="top">
           <div className="location">
-            <p>{data.name}</p>
+            <p>{data.name}, {data.sys.country}</p>
           </div>
           <div className="temp">
-            {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
+            {data.main ? <h1>{Math.round((data.main.temp.toFixed()-32)*5/9)}°C</h1> : null}
           </div>
           <div className="description">
             {data.weather ? <p>{data.weather[0].main}</p> : null}
@@ -43,16 +43,20 @@ function App() {
         {data.name !== undefined &&
           <div className="bottom">
             <div className="feels">
-              {data.main ? <p className='bold'>{data.main.feels_like.toFixed()}°F</p> : null}
-              <p>Feels Like</p>
+              {data.main ? <p className='bold'>{Math.round((data.main.feels_like.toFixed()-32)*5/9)}°C</p> : null}
+              <p className='bottom_description'>Gefühlt</p>
             </div>
             <div className="humidity">
               {data.main ? <p className='bold'>{data.main.humidity}%</p> : null}
-              <p>Humidity</p>
+              <p className='bottom_description'>Feuchtigkeit</p>
+            </div>
+            <div className="pressure">
+              {data.main ? <p className='bold'>{data.main.pressure} hPa</p> : null}
+              <p className='bottom_description'>Luftdruck</p>
             </div>
             <div className="wind">
-              {data.wind ? <p className='bold'>{data.wind.speed.toFixed()} MPH</p> : null}
-              <p>Wind Speed</p>
+              {data.wind ? <p className='bold'>{Math.round(data.wind.speed.toFixed()*0.621371)} Kmh</p> : null}
+              <p className='bottom_description'>Windgeschwindigkeit</p>
             </div>
           </div>
         }
