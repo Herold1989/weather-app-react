@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+// import temp from './assets/temp.svg'
 
 function App() {
   const [data, setData] = useState({})
   const [location, setLocation] = useState('')
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=f037cfc37b2689d8fd8bebc8261cd01d`
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=f037cfc37b2689d8fd8bebc8261cd01d`
 
   const searchLocation = (event) => {
     if (event.key === 'Enter') {
@@ -17,6 +18,12 @@ function App() {
     }
   }
 
+
+  // const getTime = (timeStamp) => {
+  //   return `${new Date(timeStamp * 1000).getHours()} : ${new Date(timeStamp * 1000).getMinutes()}`
+  //  }
+
+
   return (
     <div className="app">
       <div className="search">
@@ -24,7 +31,7 @@ function App() {
           value={location}
           onChange={event => setLocation(event.target.value)}
           onKeyPress={searchLocation}
-          placeholder='Enter Location'
+          placeholder='Wie ist das Wetter in...'
           type="text" />
       </div>
       <div className="container">
@@ -33,26 +40,33 @@ function App() {
             <p>{data.name}</p>
           </div>
           <div className="temp">
-            {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
+            {data.main ? <h1>{data.main.temp.toFixed()}°C</h1> : null}
           </div>
           <div className="description">
             {data.weather ? <p>{data.weather[0].main}</p> : null}
           </div>
+          {/* <div className='sunset'>
+              <img src={temp} alt='sunset'/> {getTime(data.sys.sunset)}
+           </div>  */}
         </div>
 
         {data.name !== undefined &&
           <div className="bottom">
             <div className="feels">
-              {data.main ? <p className='bold'>{data.main.feels_like.toFixed()}°F</p> : null}
-              <p>Feels Like</p>
+              {data.main ? <p className='bold'>{data.main.feels_like.toFixed()}°C</p> : null}
+              <p className='bottom_description'>Gefühlt</p>
             </div>
             <div className="humidity">
               {data.main ? <p className='bold'>{data.main.humidity}%</p> : null}
-              <p>Humidity</p>
+              <p className='bottom_description'>Feuchtigkeit</p>
+            </div>
+            <div className="pressure">
+              {data.main.pressure ? <p className='bold'>{data.main.pressure.toFixed()} hPa</p> : null}
+              <p className='bottom_description'>Luftdruck</p>
             </div>
             <div className="wind">
-              {data.wind ? <p className='bold'>{data.wind.speed.toFixed()} MPH</p> : null}
-              <p>Wind Speed</p>
+              {data.wind ? <p className='bold'>{data.wind.speed.toFixed()} Kmh</p> : null}
+              <p className='bottom_description'>Windgeschwindigkeit</p>
             </div>
           </div>
         }
