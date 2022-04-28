@@ -4,11 +4,8 @@ import axios from 'axios'
 function App() {
   const [data, setData] = useState({})
   const [location, setLocation] = useState('')
-  const getTime = (timeStamp) => {
-    return `${new Date(timeStamp * 1000).getHours()} : ${new Date(timeStamp * 1000).getMinutes()}`
-}
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=895284fb2d2c50a520ea537456963d9c`
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=f037cfc37b2689d8fd8bebc8261cd01d`
 
   const searchLocation = (event) => {
     if (event.key === 'Enter') {
@@ -27,42 +24,35 @@ function App() {
           value={location}
           onChange={event => setLocation(event.target.value)}
           onKeyPress={searchLocation}
-          placeholder='Das Wetter in...'
+          placeholder='Enter Location'
           type="text" />
       </div>
       <div className="container">
         <div className="top">
           <div className="location">
-            <p>{data.name}, {data.sys.country}</p>
+            <p>{data.name}</p>
           </div>
           <div className="temp">
-            {data.main ? <h1>{Math.round((data.main.temp.toFixed()-32)*5/9)}°C</h1> : null}
+            {data.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null}
           </div>
           <div className="description">
             {data.weather ? <p>{data.weather[0].main}</p> : null}
-          </div>      
-          <div className='sunset'>
-          <p>Sonnenuntergang: {getTime(data.sys.sunset) ? <p>{getTime(data.sys.sunset)} Uhr</p> : null}</p>
           </div>
         </div>
 
         {data.name !== undefined &&
           <div className="bottom">
             <div className="feels">
-              {data.main ? <p className='bold'>{Math.round((data.main.feels_like.toFixed()-32)*5/9)}°C</p> : null}
-              <p className='bottom_description'>Gefühlt</p>
+              {data.main ? <p className='bold'>{data.main.feels_like.toFixed()}°F</p> : null}
+              <p>Feels Like</p>
             </div>
             <div className="humidity">
               {data.main ? <p className='bold'>{data.main.humidity}%</p> : null}
-              <p className='bottom_description'>Feuchtigkeit</p>
-            </div>
-            <div className="pressure">
-              {data.main ? <p className='bold'>{data.main.pressure} hPa</p> : null}
-              <p className='bottom_description'>Luftdruck</p>
+              <p>Humidity</p>
             </div>
             <div className="wind">
-              {data.wind ? <p className='bold'>{Math.round(data.wind.speed.toFixed()*0.621371)} Kmh</p> : null}
-              <p className='bottom_description'>Windgeschwindigkeit</p>
+              {data.wind ? <p className='bold'>{data.wind.speed.toFixed()} MPH</p> : null}
+              <p>Wind Speed</p>
             </div>
           </div>
         }
