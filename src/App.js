@@ -4,6 +4,9 @@ import axios from 'axios'
 function App() {
   const [data, setData] = useState({})
   const [location, setLocation] = useState('')
+  const getTime = (timeStamp) => {
+    return `${new Date(timeStamp * 1000).getHours()} : ${new Date(timeStamp * 1000).getMinutes()}`
+}
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=895284fb2d2c50a520ea537456963d9c`
 
@@ -37,6 +40,9 @@ function App() {
           </div>
           <div className="description">
             {data.weather ? <p>{data.weather[0].main}</p> : null}
+          </div>      
+          <div className='sunset'>
+          <p>Sonnenuntergang: {getTime(data.sys.sunset) ? <p>{getTime(data.sys.sunset)} Uhr</p> : null}</p>
           </div>
         </div>
 
