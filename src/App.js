@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-// import temp from './assets/temp.svg'
 
 function App() {
   const [data, setData] = useState({})
@@ -19,9 +18,9 @@ function App() {
   }
 
 
-  // const getTime = (timeStamp) => {
-  //   return `${new Date(timeStamp * 1000).getHours()} : ${new Date(timeStamp * 1000).getMinutes()}`
-  //  }
+const getTime = (timeStamp) => {
+     return `${new Date(timeStamp * 1000).getHours()} : ${new Date(timeStamp * 1000).getMinutes()}`
+  }
 
 
   return (
@@ -45,9 +44,6 @@ function App() {
           <div className="description">
             {data.weather ? <p>{data.weather[0].main}</p> : null}
           </div>
-          {/* <div className='sunset'>
-              <img src={temp} alt='sunset'/> {getTime(data.sys.sunset)}
-           </div>  */}
         </div>
 
         {data.name !== undefined &&
@@ -64,9 +60,13 @@ function App() {
               {data.main.pressure ? <p className='bold'>{data.main.pressure.toFixed()} hPa</p> : null}
               <p className='bottom_description'>Luftdruck</p>
             </div>
-            <div className="wind">
+            {/* <div className="wind">
               {data.wind ? <p className='bold'>{data.wind.speed.toFixed()} Kmh</p> : null}
               <p className='bottom_description'>Windgeschwindigkeit</p>
+            </div> */}
+            <div className="sunset">
+              {data.sys.sunset ? <p className='bold'>{getTime(data.sys.sunset)}</p> : null}
+              <p className='bottom_description'>Sonnenuntergang</p>
             </div>
           </div>
         }
